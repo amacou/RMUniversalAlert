@@ -96,8 +96,6 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
                     tapBlock(alert, RMUniversalAlertFirstOtherButtonIndex + otherOffset);
                 }
             }
-            
-            [alertView bk_setDidDismissBlock:nil];
         }];
         
         [alert.alertView show];
