@@ -24,9 +24,9 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
 
 @interface RMUniversalAlert ()
 
-@property (nonatomic) UIAlertController *alertController;
-@property (nonatomic) UIAlertView *alertView;
-@property (nonatomic) UIActionSheet *actionSheet;
+@property (nonatomic, weak) UIAlertController *alertController;
+@property (nonatomic, weak) UIAlertView *alertView;
+@property (nonatomic, weak) UIActionSheet *actionSheet;
 
 @property (nonatomic, assign) BOOL hasCancelButton;
 @property (nonatomic, assign) BOOL hasDestructiveButton;
@@ -72,11 +72,13 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
             [other addObjectsFromArray:otherButtonTitles];
         }
         
-        alert.alertView = [[UIAlertView alloc] initWithTitle:title
-                                                     message:message
-                                                    delegate:nil
-                                           cancelButtonTitle:cancelButtonTitle
-                                           otherButtonTitles:NSArrayToVariableArgumentsList(other)];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:cancelButtonTitle
+                                              otherButtonTitles:NSArrayToVariableArgumentsList(other)];
+        
+        alert.alertView = alertView;
         
         [alert.alertView bk_setDidDismissBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (tapBlock) {
@@ -94,6 +96,8 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
                     tapBlock(alert, RMUniversalAlertFirstOtherButtonIndex + otherOffset);
                 }
             }
+            
+            [alertView bk_setDidDismissBlock:nil];
         }];
         
         [alert.alertView show];
@@ -156,11 +160,12 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
             }
         };
         
-        alert.actionSheet = [self actionSheetWithTitle:title
-                                     cancelButtonTitle:cancelButtonTitle
-                                destructiveButtonTitle:destructiveButtonTitle
-                                     otherButtonTitles:otherButtonTitles
-                                              tapBlock:actionSheetTapBlock];
+        UIActionSheet *actionSheet = [self actionSheetWithTitle:title
+                                              cancelButtonTitle:cancelButtonTitle
+                                         destructiveButtonTitle:destructiveButtonTitle
+                                              otherButtonTitles:otherButtonTitles
+                                                       tapBlock:actionSheetTapBlock];
+        alert.actionSheet = actionSheet;
 
         if (popoverPresentationControllerBlock) {
             

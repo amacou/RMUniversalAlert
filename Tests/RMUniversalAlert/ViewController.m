@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, PresentationMode) {
 
 @property (strong, nonatomic) RMUniversalAlertCompletionBlock tapBlock;
 
-@property (strong, nonatomic) RMUniversalAlert *universalAlert;
+@property (weak, nonatomic) RMUniversalAlert *universalAlert;
 
 @end
 
