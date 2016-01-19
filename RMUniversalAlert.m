@@ -179,7 +179,11 @@ static NSInteger const RMUniversalAlertFirstOtherButtonIndex = 2;
                 [alert.actionSheet showInView:viewController.view];
             }
         } else {
-            [alert.actionSheet showInView:viewController.view];
+            if (viewController.tabBarController) {
+                [alert.actionSheet showInView:viewController.tabBarController.view];
+            } else {
+                [alert.actionSheet showInView:viewController.view];
+            }
         }
     }
     
